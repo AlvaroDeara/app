@@ -1,0 +1,88 @@
+<?php
+/**
+* Clase User
+*
+* Clase para el manejo de los usuarios
+* @author Daniel Alvaro Deara 
+*/
+
+class User extends AppController{
+
+	public function __contruct(){
+		parent::__contruct();
+	}
+	
+	/**
+	* Metodo index
+	*
+	* Metodo que sirve para listar los usuarios
+	* @return void no regresa ningun valor
+	*/
+	public function index(){
+		$users = $this->User->find("users", "all");	
+		$this->set("users", $users);
+	}
+	
+	/**
+	* Metodo add
+	*
+	* Metodo que sirve para agregar usuarios
+	* @return void no regresa ningun valor
+	*/
+	public function add(){
+		if($_POST){
+
+
+		$filter = new validations;
+		var_dump($filter->isInt($_POST['age' ], 18, 99));
+	}
+/*
+		$groups = $this->User->find("groups", "all");	
+		$this->set("groups", $groups);
+		if($_POST){
+			if($this->User->save("users", $_POST)){
+				$this->redirect(array("controller"=>"users", "action"=>"index"));
+			}else{
+				$this->redirect(array("controller"=>"users", "action"=>"add"));
+			}
+		}
+		*/
+	}
+	
+	/**
+	* Metodo edit
+	*
+	* Metodo que sirve para editar Usuarios
+	* @param int $id Identificador unico del usuario a editar
+	*/
+	public function edit($id = null){
+		if($_POST){
+			$this->User->update("users", $_POST);
+			$this->redirect(array("controller"=>"users", "action"=>"index"));
+		}else{
+			$users = $this->User->find("users", "all",  array(
+				'conditions'=>'id='.$id,
+				'fields'=>'*'
+				)
+			);
+			$this->set("users", $users);
+			
+			$groups = $this->User->find("groups", "all");	
+			$this->set("groups", $groups);
+		}
+		
+	}
+	
+	/**
+	* Metodo delete
+	*
+	* Metodo que sirve para eliminar usuarios
+	* @param int $id Identificador unico del usuario a eliminar
+	*/
+	public function delete($id = null){
+		if($_GET){
+			$users = $this->User->delete('users', 'id = '.$id);
+			$this->redirect(array("controller"=>"users", "action"=>"index"));
+		}
+	}	
+}

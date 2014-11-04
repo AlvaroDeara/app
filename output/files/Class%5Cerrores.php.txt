@@ -1,0 +1,75 @@
+<?php
+/**
+* Manejo de errores
+* Constantes predefinidas
+*
+* 1. E_ERROR  : Errores fatales en tiempo de ejecucion <1>
+* 2. E-WARNING: Advertencias en tiempo de ejecucion <2>
+* 3. E_NOTICE : Avisos en tiempo de ejecucion <4>
+* 4. E_PARSE  : Errores de analisis en tiempo de compilacion <8>
+* 5. E_CORE_ERROR     : Errores fatales que ocurren durante el arranque inicial de PHP <16>
+* 6. E_CORE_WARNING   : Advertencias <32>
+* 7. E_COMPILE_ERROR  : Errores fatales en tiempo de compilacion <64>
+* 8. E_COMPILE_WARNING: Advertencias en tiempo de compilacion <128>
+* 9. E_USER_ERROR     : Mensaje de error generado por el usuario <256>
+* 10. E_USER_WARNING  : Mensaje de advertencia generado por el usuario <512>
+* 11. E_USER_NOTICE   : Mensaje de aviso generado por el usuario <1024>
+*/
+
+class Errores{
+	public $errorTipos = array(
+		1=>"ERROR",
+		2=>"WARNING",
+		4=>"PARSE ERROR",
+		8=>"NOTICE",
+		16=>"CORE ERROR",
+		32=>"CORE WARNING",
+		64=>"COMPILE ERROR",
+		128=>"COMPILE WARNING",
+		256=>"USER ERROR",
+		512=>"USER WARNING",
+		1024=>"USER NOTICE"
+		);
+		
+	private $mostrarErrores = TRUE;
+	private $logearErrores = TRUE;
+	
+	private $archivoErrores = "../tmp/PHP_errores.log";
+	
+	public function __construct(){
+		$gestor = set_error_handler(array($this,'gestionErrores'));
+		error_reporting(E_ALL);
+	}
+	
+	public function gestionErrores($errno,$errstr,$file,$linea,$context){
+		$strErr = "</pre>";
+		$strErr .= "--ERROR ".$this->errorTipos[$errno]." -- ".PHP_EOL;
+		$strErr .= "FECHA: ".date('Y-m-d H:i:s').PHP_EOL;
+		$strErr .= "ARCHIVO: ".$file.PHP_EOL;
+		$strErr .= "LINEA: ".$linea.PHP_EOL;
+		$strErr .= "IP SERVIDOR: ".$_SERVER['SERVER_ADDR'].PHP_EOL;
+		$strErr .= "IP USUARIO: ".$_SERVER['REMOTE_ADDR'].PHP_EOL;
+		$strErr .= "MENSAJE".$errstr.PHP_EOL;
+		$strErr .= "-- ERROR ".$this->errorTipos['$errno'].'--'.PHP_EOL;
+		$strErr .= "</pre>";
+		
+		if($this->logearErrores){
+			if(is_writeable($this->archivoErrores)){
+				$logTxt = file_get_contents($this->archivoErrores);
+				$logTxt .= $strErr.PHP_EOL;
+				file_put_contents($this->archivoErrores,$logTxt);
+			}
+		}
+		
+		if($this->mostrarErrores){
+			echo $strErr;
+		}else{
+			echo "ERROR: ".PHP.EOL;
+		}
+	}
+	
+}
+
+$err = new Errores();
+include("errors.php");
+?>

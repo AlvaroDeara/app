@@ -1,0 +1,27 @@
+<pre>-- ERROR NOTICE --
+fecha: 14-10-21 06:19:19
+archivo: C:\xampp\htdocs\app\Class\Errores.php
+line: 50
+IP servidor: ::1
+IP usuario: ::1
+Mensaje: Undefined variable: ob
+-- ERROR NOTICE --
+</pre>
+</pre>--ERROR WARNING -- 
+FECHA: 2014-10-21 18:20:09
+ARCHIVO: C:\xampp\htdocs\app\Class\errores1.php
+LINEA: 74
+IP SERVIDOR: ::1
+IP USUARIO: ::1
+MENSAJEinclude(errors.php): failed to open stream: No such file or directory
+-- ERROR --
+</pre>
+</pre>--ERROR WARNING -- 
+FECHA: 2014-10-21 18:20:09
+ARCHIVO: C:\xampp\htdocs\app\Class\errores1.php
+LINEA: 74
+IP SERVIDOR: ::1
+IP USUARIO: ::1
+MENSAJEinclude(): Failed opening 'errors.php' for inclusion (include_path='.;C:\xampp\php\PEAR')
+-- ERROR --
+</pre>
